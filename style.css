@@ -1,0 +1,50 @@
+html {
+	font-size: 16px;
+	font-family: Arial;
+}
+
+h1 {
+	font-size: 1.5rem;
+	text-align: center;
+}
+
+h2{
+    text-align: center;
+}
+
+#container {
+	margin: 0 auto;
+	width: 70vw;
+
+}
+.key{
+	font-weight: bold;
+}
+
+.key.container:hover {
+	cursor: pointer;
+} 
+
+.parent {
+	margin-left: 2.4rem;
+	position: relative;
+}
+
+.parent p {
+	margin: 0;
+}
+
+.row div{
+	display: inline-block;
+}
+
+.hidden {
+	display: none;
+}
+
+.container::before{
+ content:"\27A4";
+ margin-left:-1rem;
+ margin-right: .2rem;
+ color: red;
+}
