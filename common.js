@@ -87,6 +87,15 @@ var testObject = {"web-app": {
     "taglib-uri": "cofax.tld",
     "taglib-location": "/WEB-INF/tlds/cofax.tld"}}};
 
+var object = {};
+if (testObject && typeof testObject === 'object') {
+  object.Object = testObject;
+} else if (Array.isArray(testObject)) {
+  object.Array = testObject;
+} else {
+  object.Error = 'not an object';
+};
+
 function iterateObj (obj) {	
 	var nodeType;		
 	var parents = document.getElementsByClassName('parent');
@@ -166,7 +175,7 @@ function addBracket (obj, nodeType) {
 };
 
 
-iterateObj (testObject);
+iterateObj (object);
 
 
 var container =  document.getElementById('container');
