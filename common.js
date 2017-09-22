@@ -96,20 +96,21 @@ if (testObject && typeof testObject === 'object') {
   object.Error = 'not an object';
 };
 
-function iterateObj (obj) {	
-	var parents = document.getElementsByClassName('parent');
-	var parent = parents[parents.length-1];
-	
-	
 
+render(object);
+
+
+
+function iterateObj (obj, fragment) {	
+	var parents = fragment.querySelectorAll('.parent');
+	var parent = parents[parents.length-1];
 	if ( Array.isArray(obj) ) {
 		for( var i = 0; i < obj.length; i++) {
 			if ( obj[i] && typeof obj[i] === "object" ) {
 				var nodeType = checkObjType(obj[i]);
 				writeBlock ( obj, i, parent );
-				iterateObj ( obj[i] );
+				iterateObj ( obj[i] , fragment);
 			} else {
-	    		console.log((i+1) + ": " + obj[i]);
 	    		writeLine ( obj, i, parent);
 			};
 		};
@@ -118,7 +119,7 @@ function iterateObj (obj) {
 			if (obj[key] && typeof obj[key] === "object") {
 				var nodeType = checkObjType(obj[key]);
 				writeBlock ( obj, key, parent );
-				iterateObj ( obj[key] );
+				iterateObj ( obj[key] , fragment );
 			} else {
 		    	writeLine ( obj, key,  parent);		    	
 			};
@@ -165,17 +166,21 @@ function writeBlock (obj , key , parent) {
 
 };
 
-function addBracket (obj) {
-	var bracket,
-      nodeType = checkObjType (obj)
-	nodeType === 'array' ? bracket = ']' : bracket = '}';
-	var parentsAll = document.getElementsByClassName('parent');
-	var parent = parentsAll[parentsAll.length-1];
-	var text = parent.lastChild.innerHTML;
+
+
+function render (object) {
+  var frame = document.querySelector('#container');
+  var fragment = document.createDocumentFragment();
+  var container = document.createElement('div');
+  container.classList.add('parent');
+  fragment.appendChild(container);
+  iterateObj (object, fragment);
+  frame.appendChild(fragment);
 };
 
 
-iterateObj (object);
+
+
 
 
 var container =  document.getElementById('container');
