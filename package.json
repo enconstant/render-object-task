@@ -1,0 +1,17 @@
+{
+  "name": "test-render-object",
+  "version": "1.0.0",
+  "description": "test task",
+  "main": "common.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Constantine",
+  "license": "ISC",
+  "devDependencies": {
+    "eslint": "^4.7.2",
+    "eslint-config-airbnb": "^15.1.0",
+    "gulp": "^3.9.1",
+    "gulp-eslint": "^4.0.0"
+  }
+}
