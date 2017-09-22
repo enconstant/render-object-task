@@ -97,25 +97,17 @@ if (testObject && typeof testObject === 'object') {
 };
 
 function iterateObj (obj) {	
-	var nodeType;		
 	var parents = document.getElementsByClassName('parent');
 	var parent = parents[parents.length-1];
 	
-	function checkObjType (obj) {
-		if (Array.isArray(obj)) {
-			nodeType = "array";
-		} else {
-			nodeType = "object"
-		};
-	};
+	
 
 	if ( Array.isArray(obj) ) {
 		for( var i = 0; i < obj.length; i++) {
 			if ( obj[i] && typeof obj[i] === "object" ) {
-				checkObjType(obj[i]);
-				writeBlock ( obj, i, parent, nodeType);
-				iterateObj ( obj[i] ,nodeType);
-				addBracket (obj[i], nodeType);
+				var nodeType = checkObjType(obj[i]);
+				writeBlock ( obj, i, parent );
+				iterateObj ( obj[i] );
 			} else {
 	    		console.log((i+1) + ": " + obj[i]);
 	    		writeLine ( obj, i, parent);
@@ -124,10 +116,9 @@ function iterateObj (obj) {
 	} else if (obj) {	
 		for( var key in obj ) {
 			if (obj[key] && typeof obj[key] === "object") {
-				checkObjType(obj[key])
-				writeBlock ( obj, key, parent, nodeType);
+				var nodeType = checkObjType(obj[key]);
+				writeBlock ( obj, key, parent );
 				iterateObj ( obj[key] );
-				addBracket(obj[key], nodeType);
 			} else {
 		    	writeLine ( obj, key,  parent);		    	
 			};
@@ -135,7 +126,13 @@ function iterateObj (obj) {
 	};	
 };
 
-
+function checkObjType (obj) {
+    if (Array.isArray(obj)) {
+      return "array";     
+    } else {
+      return "object"     
+    };
+  };
 
 function writeLine (obj , key ,  parent) {
 	var keyMod;
@@ -147,9 +144,11 @@ function writeLine (obj , key ,  parent) {
 };
 
 
-function writeBlock (obj , key , parent , nodeType) {
+function writeBlock (obj , key , parent) {
 	var bracketL,
-		bracketR;
+		  bracketR,
+      nodeType;
+  nodeType = checkObjType(obj[key]);
 	var wrapper = document.createElement('div');
 	wrapper.classList.add("parent");
 	var elem = document.createElement('div');
@@ -166,9 +165,10 @@ function writeBlock (obj , key , parent , nodeType) {
 
 };
 
-function addBracket (obj, nodeType) {
-	var skoba;
-	nodeType === 'array' ? skoba = ']' : skoba = '}';
+function addBracket (obj) {
+	var bracket,
+      nodeType = checkObjType (obj)
+	nodeType === 'array' ? bracket = ']' : bracket = '}';
 	var parentsAll = document.getElementsByClassName('parent');
 	var parent = parentsAll[parentsAll.length-1];
 	var text = parent.lastChild.innerHTML;
