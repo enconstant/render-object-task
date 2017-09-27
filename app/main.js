@@ -1,4 +1,5 @@
-var testObject = { 'web-app': {
+'use strict'
+let testObject = { 'web-app': {
   'servlet': [   
     {
       'servlet-name': 'cofaxCDS',
@@ -85,10 +86,10 @@ var testObject = { 'web-app': {
  
   'taglib': {
     'taglib-uri': 'cofax.tld',
-   'taglib-location': '/WEB-INF/tlds/cofax.tld' } } };
+    'taglib-location': '/WEB-INF/tlds/cofax.tld' } } };
 
-var object = {};
-var container;
+const object = {};
+
 if (testObject && typeof testObject === 'object') {
   object.Object = testObject;
 } else if (Array.isArray(testObject)) {
@@ -97,97 +98,76 @@ if (testObject && typeof testObject === 'object') {
   object.Error = 'not an object';
 }
 
-
-function writeLine(obj, key, parent) {
-  var keyMod;
-  var elem = document.createElement('div');
-  Array.isArray(obj) ? keyMod = key + 1 : keyMod = key;
-  elem.innerHTML = '<span class="key">' + keyMod + ': </span><span>' + obj[key] + '</span>';
-  elem.classList.add('row');
-  parent.appendChild(elem);
-}
-
-function writeBlock(obj, key, parent) {
-  var bracketL;
-  var bracketR;
-  var nodeType;
-  var bracket;
-  var wrapper;
-  var elem;
-  nodeType = checkObjType(obj[key]);
-  wrapper = document.createElement('div');
-  wrapper.classList.add('parent');
-  elem = document.createElement('div');
-  (nodeType === 'array') ? bracketL = '[' : bracketL = '{';
-  (nodeType === 'array') ? bracketR = '...]' : bracketR = '...}';
-  elem.innerHTML = '<span class="container key">' + key + ' : </span><span>' + bracketL + '</span><span class="hidden">' + bracketR + '</span>';
-  elem.setAttribute('data-toggle', 'true');
-  parent.appendChild(elem);
-  parent.appendChild(wrapper);
-  bracket = document.createElement('span');
-  bracket.innerHTML = bracketR;
-  parent.appendChild(bracket);
-}
-
-function checkObjType(obj) {
+function drawObject(obj) {
   if (Array.isArray(obj)) {
-    return 'array';
+    let text = '';
+    obj.forEach((item, i) => {
+      text += draw(i, obj);
+    });
+    return `<div class='parent' data-toggle='true'>${text}</div>`;
+  } else if (typeof obj === 'object' && obj) {
+    const props = Object.keys(obj);
+    let text = ' ';
+    props.forEach((item) => {
+      text += draw(item, obj);
+    });
+    return `<div class='object-render__object-block'>${text}</div>`;
+  }
+}
+
+
+function draw(item, object) {
+  if (Array.isArray(object[item])) {
+    return `
+            <p class='object-render__key-line'>
+              <span>${item}: [</span>
+              <span class="object-render__bracket_hidden">...]</span>
+            </p>${drawObject(object[item])}]
+    `;
+  } else if (object[item] && typeof object[item] === 'object') {
+    return `
+            <p class='object-render__key-line'>
+              <span>${item}: {</span>
+              <span class="object-render__bracket_hidden">...}</span>
+            </p>${drawObject(object[item])}}
+    `;
   } else {
-    return 'object';
+    return `
+            <p>
+              <span>${item}: </span>
+              <span>${object[item]}</span>
+            </p>
+    `;
   }
 }
 
 
-function iterateObj(obj, fragment) {
-  var parents = fragment.querySelectorAll('.parent');
-  var parent = parents[parents.length - 1];
-  if (Array.isArray(obj)) {
-    for (var i = 0; i < obj.length; i++) {
-      if (obj[i] && typeof obj[i] === 'object') {
-        writeBlock(obj, i, parent);
-        iterateObj(obj[i], fragment);
-      } else {
-        writeLine(obj, i, parent);
-      }
-    }
-  } else if (obj) {
-    for (var key in obj) {
-      if (obj[key] && typeof obj[key] === 'object') {
-        writeBlock(obj, key, parent);
-        iterateObj(obj[key], fragment);
-      } else {
-        writeLine(obj, key, parent);
-      }
-    }
-  }
-}
+document.querySelector('.object-render').innerHTML = drawObject(object);
 
 
-function render(objectR) {
-  var frame = document.querySelector('#container');
-  var fragment = document.createDocumentFragment();
-  var content = document.createElement('div');
-  content.classList.add('parent');
-  fragment.appendChild(content);
-  iterateObj(objectR, fragment);
-  frame.appendChild(fragment);
-}
-
-
-container = document.getElementById('container');
+const container = document.querySelector('.object-render');
 container.onclick = function (event) {
-  var nextElem;
-  var target = event.target;
+  let target = event.target;
   while (target !== container) {
-    if (target.hasAttribute('data-toggle')) {
-      nextElem = target.nextSibling;
-      nextElem.classList.toggle('hidden');
-      nextElem.nextSibling.classList.toggle('hidden');
-      target.lastChild.classList.toggle('hidden');
+    if (target.classList.contains('object-render__key-line')) {
+      let nextElem = target.nextSibling.classList;
+
+      if (nextElem.contains('object-render__object-block')) {
+        nextElem.replace('object-render__object-block', 'object-render__object-block_collapsed');
+      } else if (nextElem.contains('object-render__object-block_collapsed')) {
+        nextElem.replace('object-render__object-block_collapsed', 'object-render__object-block');
+      }
+
+      let bracket = target.lastChild.previousSibling.classList;
+
+      if (bracket.contains('object-render__bracket_hidden')) {
+        bracket.replace('object-render__bracket_hidden', 'object-render__bracket');
+      } else if (bracket.contains('object-render__bracket')) {
+        bracket.replace('object-render__bracket', 'object-render__bracket_hidden');
+      }
+
       return;
     }
     target = target.parentNode;
   }
 };
-
-render(object);

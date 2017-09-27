@@ -48,3 +48,14 @@ h2{
  margin-right: .2rem;
  color: red;
 }
+
+.key{
+	position: relative;
+}
+
+.key>span:first-child::before{
+ content:"\27A4";
+ margin-left:-1rem;
+ margin-right: .2rem;
+ color: red;
+}
