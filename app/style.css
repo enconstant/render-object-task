@@ -13,7 +13,7 @@
 	text-align: center;
 }
 
-.page__rendering-block{
+.page__rendering-block {
 	margin: 0 auto;
 	min-width: 640px;
 	width: 70vw;
@@ -41,14 +41,14 @@
 	font-weight: bold;
 }
 
-.object-render__key-name_extended::before{
+.object-render__key-name_extended::before {
     color: #11bb11;
  	content:"\2B07";
  	margin-left:-1rem;
  	margin-right: .2rem;
 }
 
-.object-render__key-name_collapsed::before{
+.object-render__key-name_collapsed::before {
  	color: #ee1111;
  	content:"\27A4";
  	margin-left:-1rem;

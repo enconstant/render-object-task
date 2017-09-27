@@ -4,7 +4,7 @@
   "description": "test task",
   "main": "common.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "jest"
   },
   "author": "Constantine",
   "license": "ISC",
@@ -13,6 +13,7 @@
     "eslint-config-airbnb": "^15.1.0",
     "gulp": "^3.9.1",
     "gulp-csslint": "^1.0.0",
-    "gulp-eslint": "^4.0.0"
+    "gulp-eslint": "^4.0.0",
+    "jest": "^21.2.0"
   }
 }
