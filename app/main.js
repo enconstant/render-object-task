@@ -104,7 +104,7 @@ function drawObject(obj) {
     obj.forEach((item, i) => {
       text += draw(i, obj);
     });
-    return `<div class='parent' data-toggle='true'>${text}</div>`;
+    return `<div class='object-render__object-block'>${text}</div>`;
   } else if (typeof obj === 'object' && obj) {
     const props = Object.keys(obj);
     let text = ' ';
@@ -120,21 +120,23 @@ function draw(item, object) {
   if (Array.isArray(object[item])) {
     return `
             <p class='object-render__key-line'>
-              <span>${item}: [</span>
-              <span class="object-render__bracket_hidden">...]</span>
-            </p>${drawObject(object[item])}]
+              <span class='object-render__key-name_extended'>${item}: [</span>
+              <span class='object-render__bracket_hidden'>...]</span>
+            </p>${drawObject(object[item])}
+            <span class='object-render__bracket'> ]</span>
     `;
   } else if (object[item] && typeof object[item] === 'object') {
     return `
             <p class='object-render__key-line'>
-              <span>${item}: {</span>
-              <span class="object-render__bracket_hidden">...}</span>
-            </p>${drawObject(object[item])}}
+              <span class='object-render__key-name_extended'>${item}: {</span>
+              <span class='object-render__bracket_hidden'>...}</span>
+            </p>${drawObject(object[item])}
+            <span class='object-render__bracket'> }</span>
     `;
   } else {
     return `
-            <p>
-              <span>${item}: </span>
+            <p class='object-render__key-line'>
+              <span class='object-render__key-name'>${item}: </span>
               <span>${object[item]}</span>
             </p>
     `;
@@ -164,6 +166,22 @@ container.onclick = function (event) {
         bracket.replace('object-render__bracket_hidden', 'object-render__bracket');
       } else if (bracket.contains('object-render__bracket')) {
         bracket.replace('object-render__bracket', 'object-render__bracket_hidden');
+      }
+
+      let bracketClosing = target.nextSibling.nextSibling.nextSibling.classList;
+
+      if (bracketClosing.contains('object-render__bracket_hidden')) {
+        bracketClosing.replace('object-render__bracket_hidden', 'object-render__bracket');
+      } else if (bracketClosing.contains('object-render__bracket')) {
+        bracketClosing.replace('object-render__bracket', 'object-render__bracket_hidden');
+      }
+
+      let arrow = target.firstChild.nextSibling.classList;
+
+      if (arrow.contains('object-render__key-name_collapsed')) {
+        arrow.replace('object-render__key-name_collapsed', 'object-render__key-name_extended');
+      } else if (arrow.contains('object-render__key-name_extended')) {
+        arrow.replace('object-render__key-name_extended', 'object-render__key-name_collapsed');
       }
 
       return;

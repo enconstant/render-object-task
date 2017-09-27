@@ -1,61 +1,56 @@
-html {
-	font-size: 16px;
+.page {
 	font-family: Arial;
+	font-size: 16px;
 }
 
-h1 {
-	font-size: 1.5rem;
+.header__text1 {
+	font-size: 1.6rem;
 	text-align: center;
 }
 
-h2{
-    text-align: center;
+.header__text2 {
+	font-size: 1.4rem;
+	text-align: center;
 }
 
-#container {
+.page__rendering-block{
 	margin: 0 auto;
+	min-width: 640px;
 	width: 70vw;
-
 }
-.key{
+
+.object-render__key-name, .object-render__bracket {
 	font-weight: bold;
 }
 
-.key.container:hover {
-	cursor: pointer;
-} 
 
-.parent {
+.object-render__object-block {
 	margin-left: 2.4rem;
 	position: relative;
 }
 
-.parent p {
-	margin: 0;
-}
-
-.row div{
-	display: inline-block;
-}
-
-.hidden {
+.object-render__bracket_hidden, .object-render__object-block_collapsed {
 	display: none;
 }
 
-.container::before{
+.object-render__key-line {
+	margin: .2rem;
+}
+
+.object-render__key-name_extended, .object-render__key-name_collapsed {
+	font-weight: bold;
+}
+
+.object-render__key-name_extended::before{
+ color: #11bb11;
+ content:"\2B07";
+ margin-left:-1rem;
+ margin-right: .2rem;
+}
+
+.object-render__key-name_collapsed::before{
+ color: #ee1111;
  content:"\27A4";
  margin-left:-1rem;
  margin-right: .2rem;
- color: red;
-}
-
-.key{
-	position: relative;
-}
-
-.key>span:first-child::before{
- content:"\27A4";
- margin-left:-1rem;
- margin-right: .2rem;
- color: red;
 }

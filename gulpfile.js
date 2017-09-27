@@ -1,5 +1,12 @@
 var gulp = require('gulp');
 var eslint = require('gulp-eslint');
+var csslint = require('gulp-csslint');
+ 
+gulp.task('css', function() {
+  gulp.src('app/style.css')
+    .pipe(csslint())
+    .pipe(csslint.formatter());
+});
  
 gulp.task('lint', function() {
     // ESLint ignores files with "node_modules" paths. 
