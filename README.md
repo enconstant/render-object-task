@@ -1,7 +1,18 @@
 # render-object-task
 
-Тестовое задание
-Есть объект древовидной структуры с произвольной вложенностью. 
-Нужно написать код, который принимает этот объект на вход и красиво рендерит его в HTML с сохранением вложенности.
-При клике на произвольный элемент из дерева в HTML, его поддерево должно скрываться и раскрываться.
-Не пользуйтесь, пожалуйста, готовыми библиотеками CSS.
+# Install
+
+Clone repository to home directory 
+`https://github.com/enconstant/render-object-task.git`
+
+Run `npm install` in terminal from project root directory 
+
+For preview open `app/index.html` in browser
+
+# Validation
+
+For css validation run `gulp css` in terminal from project root diectory 
+For java-script validation run `gulp lint` in terminal from project root diectory 
+
+
+
