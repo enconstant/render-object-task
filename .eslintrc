@@ -1,6 +1,59 @@
 {
+  "env": {
+    "browser": true
+  },
+
   "extends": "airbnb",
-  "rules": {
-    "func-names": ["error", "never"]
+
+  rules: {
+    'class-methods-use-this': 'off',
+    'func-names': 'off',
+    'import/no-extraneous-dependencies': 'off',
+    'import/no-unresolved': ['error', {
+      ignore: [
+        '^app\/',
+      ]
+    }],
+    'import/imports-first': [ 'warn', 'DISABLE-absolute-first' ],
+    'import/prefer-default-export': 'off',
+    'react/forbid-prop-types': ['error', {
+      forbid: ['any'],
+    }],
+    'indent': ['error', 2],
+    'no-param-reassign': 'off',
+    'no-underscore-dangle': 'off',
+    'no-multiple-empty-lines': [
+      'error', {
+        max: 1,
+        maxBOF: 0,
+        maxEOF: 0
+      }
+    ],
+    'padded-blocks': ['error', {
+      blocks: 'never',
+      classes: 'never',
+      switches: 'never',
+    }],
+    'react/no-unused-prop-types': 'off',
+    'react/jsx-filename-extension': 'off',
+    'react/jsx-wrap-multilines': 'error',
+    'react/prefer-stateless-function': 'off',
+    'react/require-extension': 'off',
+    'react/sort-comp': ['error', {
+      order: [
+        'static-methods',
+        'lifecycle',
+        'render',
+        'everything-else'
+      ]
+    }],
+  },
+
+  "globals": {
+    // jQuery
+    "$": true,
+
+    // Google Analytics
+    "ga": true
   }
 }

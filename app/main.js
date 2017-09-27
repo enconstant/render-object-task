@@ -1,5 +1,6 @@
 'use strict'
-let testObject = { 'web-app': {
+
+const testObject = { 'web-app': {
   'servlet': [   
     {
       'servlet-name': 'cofaxCDS',
@@ -82,7 +83,7 @@ let testObject = { 'web-app': {
     'cofaxEmail': '/cofaxutil/aemail/*',
     'cofaxAdmin': '/admin/*',
     'fileServlet': '/static/*',
-    'cofaxTools': '/tools/*'},
+    'cofaxTools': '/tools/*' },
  
   'taglib': {
     'taglib-uri': 'cofax.tld',
@@ -96,6 +97,32 @@ if (testObject && typeof testObject === 'object') {
   object.Array = testObject;
 } else {
   object.Error = 'not an object';
+}
+
+function draw(item, obj) {
+  if (Array.isArray(obj[item])) {
+    return `
+            <p class='object-render__key-line'>
+              <span class='object-render__key-name_extended'>${item}: [</span>
+              <span class='object-render__bracket_hidden'>...]</span>
+            </p>${drawObject(obj[item])}
+            <span class='object-render__bracket'> ]</span>
+    `;
+  } else if (obj[item] && typeof obj[item] === 'object') {
+    return `
+            <p class='object-render__key-line'>
+              <span class='object-render__key-name_extended'>${item}: {</span>
+              <span class='object-render__bracket_hidden'>...}</span>
+            </p>${drawObject(obj[item])}
+            <span class='object-render__bracket'> }</span>
+    `;
+  }
+  return `
+          <p class='object-render__key-line'>
+            <span class='object-render__key-name'>${item}: </span>
+            <span>${obj[item]}</span>
+          </p>
+  `;
 }
 
 function drawObject(obj) {
@@ -115,44 +142,14 @@ function drawObject(obj) {
   }
 }
 
-
-function draw(item, object) {
-  if (Array.isArray(object[item])) {
-    return `
-            <p class='object-render__key-line'>
-              <span class='object-render__key-name_extended'>${item}: [</span>
-              <span class='object-render__bracket_hidden'>...]</span>
-            </p>${drawObject(object[item])}
-            <span class='object-render__bracket'> ]</span>
-    `;
-  } else if (object[item] && typeof object[item] === 'object') {
-    return `
-            <p class='object-render__key-line'>
-              <span class='object-render__key-name_extended'>${item}: {</span>
-              <span class='object-render__bracket_hidden'>...}</span>
-            </p>${drawObject(object[item])}
-            <span class='object-render__bracket'> }</span>
-    `;
-  } else {
-    return `
-            <p class='object-render__key-line'>
-              <span class='object-render__key-name'>${item}: </span>
-              <span>${object[item]}</span>
-            </p>
-    `;
-  }
-}
-
-
 document.querySelector('.object-render').innerHTML = drawObject(object);
-
 
 const container = document.querySelector('.object-render');
 container.onclick = function (event) {
   let target = event.target;
   while (target !== container) {
     if (target.classList.contains('object-render__key-line')) {
-      let nextElem = target.nextSibling.classList;
+      const nextElem = target.nextSibling.classList;
 
       if (nextElem.contains('object-render__object-block')) {
         nextElem.replace('object-render__object-block', 'object-render__object-block_collapsed');
@@ -160,7 +157,7 @@ container.onclick = function (event) {
         nextElem.replace('object-render__object-block_collapsed', 'object-render__object-block');
       }
 
-      let bracket = target.lastChild.previousSibling.classList;
+      const bracket = target.lastChild.previousSibling.classList;
 
       if (bracket.contains('object-render__bracket_hidden')) {
         bracket.replace('object-render__bracket_hidden', 'object-render__bracket');
@@ -168,7 +165,7 @@ container.onclick = function (event) {
         bracket.replace('object-render__bracket', 'object-render__bracket_hidden');
       }
 
-      let bracketClosing = target.nextSibling.nextSibling.nextSibling.classList;
+      const bracketClosing = target.nextSibling.nextSibling.nextSibling.classList;
 
       if (bracketClosing.contains('object-render__bracket_hidden')) {
         bracketClosing.replace('object-render__bracket_hidden', 'object-render__bracket');
@@ -176,7 +173,7 @@ container.onclick = function (event) {
         bracketClosing.replace('object-render__bracket', 'object-render__bracket_hidden');
       }
 
-      let arrow = target.firstChild.nextSibling.classList;
+      const arrow = target.firstChild.nextSibling.classList;
 
       if (arrow.contains('object-render__key-name_collapsed')) {
         arrow.replace('object-render__key-name_collapsed', 'object-render__key-name_extended');
