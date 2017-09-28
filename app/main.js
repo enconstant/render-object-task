@@ -118,7 +118,7 @@ function draw(item, obj) {
     `;
   }
   return `
-          <p class='object-render__key-line'>
+          <p class='object-render__key-line_inactive'>
             <span class='object-render__key-name'>${item}: </span>
             <span>${obj[item]}</span>
           </p>

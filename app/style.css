@@ -32,7 +32,7 @@
 	display: none;
 }
 
-.object-render__key-line {
+.object-render__key-line, .object-render__key-line_inactive {
 	margin: .2rem;
 }
 
