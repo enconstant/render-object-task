@@ -1,7 +1,5 @@
-'use strict'
-
 const testObject = { 'web-app': {
-  'servlet': [   
+  'servlet': [
     {
       'servlet-name': 'cofaxCDS',
       'servlet-class': 'org.cofax.cds.CDSServlet',
@@ -47,20 +45,19 @@ const testObject = { 'web-app': {
         'dataStoreMaxConns': 100,
         'dataStoreConnUsageLimit': 100,
         'dataStoreLogLevel': 'debug',
-        'maxUrlLength': 500}},
+        'maxUrlLength': 500 } },
     {
       'servlet-name': 'cofaxEmail',
       'servlet-class':'org.cofax.cds.EmailServlet',
       'init-param': {
-      'mailHost': 'mail1',
-      'mailHostOverride': 'mail2'}},
+        'mailHost': 'mail1',
+        'mailHostOverride': 'mail2' } },
     {
       'servlet-name': 'cofaxAdmin',
-      'servlet-class': 'org.cofax.cds.AdminServlet'},
- 
+      'servlet-class': 'org.cofax.cds.AdminServlet' },
     {
       'servlet-name': 'fileServlet',
-      'servlet-class': 'org.cofax.cds.FileServlet'},
+      'servlet-class': 'org.cofax.cds.FileServlet' },
     {
       'servlet-name': 'cofaxTools',
       'servlet-class': 'org.cofax.cms.CofaxToolsServlet',
@@ -77,14 +74,13 @@ const testObject = { 'web-app': {
         'fileTransferFolder': '/usr/local/tomcat/webapps/content/fileTransferFolder',
         'lookInContext': 1,
         'adminGroupID': 4,
-        'betaServer': true} } ],
+        'betaServer': true } }],
   'servlet-mapping': {
     'cofaxCD': '/',
     'cofaxEmail': '/cofaxutil/aemail/*',
     'cofaxAdmin': '/admin/*',
     'fileServlet': '/static/*',
     'cofaxTools': '/tools/*' },
- 
   'taglib': {
     'taglib-uri': 'cofax.tld',
     'taglib-location': '/WEB-INF/tlds/cofax.tld' } } };
@@ -101,28 +97,22 @@ if (testObject && typeof testObject === 'object') {
 
 function draw(item, obj) {
   if (Array.isArray(obj[item])) {
-    return `
-            <p class='object-render__key-line'>
-              <span class='object-render__key-name_extended'>${item}: [</span>
-              <span class='object-render__bracket_hidden'>...]</span>
-            </p>${drawObject(obj[item])}
-            <span class='object-render__bracket'> ]</span>
-    `;
+    return '<p class="object-render__key-line">' +
+              `<span class="object-render__key-name_extended">${item}: [</span>` +
+              '<span class="object-render__bracket_hidden">...]</span>' +
+            `</p>${drawObject(obj[item])}` +
+            '<span class="object-render__bracket"> ]</span>';
   } else if (obj[item] && typeof obj[item] === 'object') {
-    return `
-            <p class='object-render__key-line'>
-              <span class='object-render__key-name_extended'>${item}: {</span>
-              <span class='object-render__bracket_hidden'>...}</span>
-            </p>${drawObject(obj[item])}
-            <span class='object-render__bracket'> }</span>
-    `;
+    return '<p class="object-render__key-line">' +
+              `<span class="object-render__key-name_extended">${item}: {</span>` +
+              '<span class="object-render__bracket_hidden">...}</span>' +
+            `</p>${drawObject(obj[item])}` +
+            '<span class="object-render__bracket"> }</span>';
   }
-  return `
-          <p class='object-render__key-line_inactive'>
-            <span class='object-render__key-name'>${item}: </span>
-            <span>${obj[item]}</span>
-          </p>
-  `;
+  return '<p class="object-render__key-line_inactive">' +
+            `<span class='object-render__key-name'>${item}: </span>` +
+            `<span>${obj[item]}</span>` +
+          '</p>';
 }
 
 function drawObject(obj) {
@@ -142,51 +132,49 @@ function drawObject(obj) {
   }
 }
 
-window.onload = () => {
-  document.querySelector('.object-render').innerHTML = drawObject(object);
+document.querySelector('.object-render').innerHTML = drawObject(object);
 
-  const container = document.querySelector('.object-render');
-  container.onclick = function (event) {
-    let target = event.target;
-    while (target !== container) {
-      if (target.classList.contains('object-render__key-line')) {
-        const nextElem = target.nextSibling.classList;
+const container = document.querySelector('.object-render');
+container.onclick = function (event) {
+  let target = event.target;
+  while (target !== container) {
+    if (target.classList.contains('object-render__key-line')) {
+      const nextElem = target.nextSibling.classList;
 
-        if (nextElem.contains('object-render__object-block')) {
-          nextElem.replace('object-render__object-block', 'object-render__object-block_collapsed');
-        } else if (nextElem.contains('object-render__object-block_collapsed')) {
-          nextElem.replace('object-render__object-block_collapsed', 'object-render__object-block');
-        }
-
-        const bracket = target.lastChild.previousSibling.classList;
-
-        if (bracket.contains('object-render__bracket_hidden')) {
-          bracket.replace('object-render__bracket_hidden', 'object-render__bracket');
-        } else if (bracket.contains('object-render__bracket')) {
-          bracket.replace('object-render__bracket', 'object-render__bracket_hidden');
-        }
-
-        const bracketClosing = target.nextSibling.nextSibling.nextSibling.classList;
-
-        if (bracketClosing.contains('object-render__bracket_hidden')) {
-          bracketClosing.replace('object-render__bracket_hidden', 'object-render__bracket');
-        } else if (bracketClosing.contains('object-render__bracket')) {
-          bracketClosing.replace('object-render__bracket', 'object-render__bracket_hidden');
-        }
-
-        const arrow = target.firstChild.nextSibling.classList;
-
-        if (arrow.contains('object-render__key-name_collapsed')) {
-          arrow.replace('object-render__key-name_collapsed', 'object-render__key-name_extended');
-        } else if (arrow.contains('object-render__key-name_extended')) {
-          arrow.replace('object-render__key-name_extended', 'object-render__key-name_collapsed');
-        }
-
-        return;
+      if (nextElem.contains('object-render__object-block')) {
+        nextElem.replace('object-render__object-block', 'object-render__object-block_collapsed');
+      } else if (nextElem.contains('object-render__object-block_collapsed')) {
+        nextElem.replace('object-render__object-block_collapsed', 'object-render__object-block');
       }
-      target = target.parentNode;
+
+      const bracket = target.nextSibling.nextSibling.classList;
+
+      if (bracket.contains('object-render__bracket_hidden')) {
+        bracket.replace('object-render__bracket_hidden', 'object-render__bracket');
+      } else if (bracket.contains('object-render__bracket')) {
+        bracket.replace('object-render__bracket', 'object-render__bracket_hidden');
+      }
+
+      const bracketClosing = target.lastChild.classList;
+
+      if (bracketClosing.contains('object-render__bracket_hidden')) {
+        bracketClosing.replace('object-render__bracket_hidden', 'object-render__bracket');
+      } else if (bracketClosing.contains('object-render__bracket')) {
+        bracketClosing.replace('object-render__bracket', 'object-render__bracket_hidden');
+      }
+
+      const arrow = target.firstChild.classList;
+
+      if (arrow.contains('object-render__key-name_collapsed')) {
+        arrow.replace('object-render__key-name_collapsed', 'object-render__key-name_extended');
+      } else if (arrow.contains('object-render__key-name_extended')) {
+        arrow.replace('object-render__key-name_extended', 'object-render__key-name_collapsed');
+      }
+
+      return;
     }
-  };
+    target = target.parentNode;
+  }
 };
 
 if (typeof exports !== 'undefined') {
