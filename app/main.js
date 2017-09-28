@@ -142,47 +142,57 @@ function drawObject(obj) {
   }
 }
 
-document.querySelector('.object-render').innerHTML = drawObject(object);
+window.onload = () => {
+  document.querySelector('.object-render').innerHTML = drawObject(object);
 
-const container = document.querySelector('.object-render');
-container.onclick = function (event) {
-  let target = event.target;
-  while (target !== container) {
-    if (target.classList.contains('object-render__key-line')) {
-      const nextElem = target.nextSibling.classList;
+  const container = document.querySelector('.object-render');
+  container.onclick = function (event) {
+    let target = event.target;
+    while (target !== container) {
+      if (target.classList.contains('object-render__key-line')) {
+        const nextElem = target.nextSibling.classList;
 
-      if (nextElem.contains('object-render__object-block')) {
-        nextElem.replace('object-render__object-block', 'object-render__object-block_collapsed');
-      } else if (nextElem.contains('object-render__object-block_collapsed')) {
-        nextElem.replace('object-render__object-block_collapsed', 'object-render__object-block');
+        if (nextElem.contains('object-render__object-block')) {
+          nextElem.replace('object-render__object-block', 'object-render__object-block_collapsed');
+        } else if (nextElem.contains('object-render__object-block_collapsed')) {
+          nextElem.replace('object-render__object-block_collapsed', 'object-render__object-block');
+        }
+
+        const bracket = target.lastChild.previousSibling.classList;
+
+        if (bracket.contains('object-render__bracket_hidden')) {
+          bracket.replace('object-render__bracket_hidden', 'object-render__bracket');
+        } else if (bracket.contains('object-render__bracket')) {
+          bracket.replace('object-render__bracket', 'object-render__bracket_hidden');
+        }
+
+        const bracketClosing = target.nextSibling.nextSibling.nextSibling.classList;
+
+        if (bracketClosing.contains('object-render__bracket_hidden')) {
+          bracketClosing.replace('object-render__bracket_hidden', 'object-render__bracket');
+        } else if (bracketClosing.contains('object-render__bracket')) {
+          bracketClosing.replace('object-render__bracket', 'object-render__bracket_hidden');
+        }
+
+        const arrow = target.firstChild.nextSibling.classList;
+
+        if (arrow.contains('object-render__key-name_collapsed')) {
+          arrow.replace('object-render__key-name_collapsed', 'object-render__key-name_extended');
+        } else if (arrow.contains('object-render__key-name_extended')) {
+          arrow.replace('object-render__key-name_extended', 'object-render__key-name_collapsed');
+        }
+
+        return;
       }
-
-      const bracket = target.lastChild.previousSibling.classList;
-
-      if (bracket.contains('object-render__bracket_hidden')) {
-        bracket.replace('object-render__bracket_hidden', 'object-render__bracket');
-      } else if (bracket.contains('object-render__bracket')) {
-        bracket.replace('object-render__bracket', 'object-render__bracket_hidden');
-      }
-
-      const bracketClosing = target.nextSibling.nextSibling.nextSibling.classList;
-
-      if (bracketClosing.contains('object-render__bracket_hidden')) {
-        bracketClosing.replace('object-render__bracket_hidden', 'object-render__bracket');
-      } else if (bracketClosing.contains('object-render__bracket')) {
-        bracketClosing.replace('object-render__bracket', 'object-render__bracket_hidden');
-      }
-
-      const arrow = target.firstChild.nextSibling.classList;
-
-      if (arrow.contains('object-render__key-name_collapsed')) {
-        arrow.replace('object-render__key-name_collapsed', 'object-render__key-name_extended');
-      } else if (arrow.contains('object-render__key-name_extended')) {
-        arrow.replace('object-render__key-name_extended', 'object-render__key-name_collapsed');
-      }
-
-      return;
+      target = target.parentNode;
     }
-    target = target.parentNode;
-  }
+  };
 };
+
+if (typeof exports !== 'undefined') {
+  if (typeof module !== 'undefined' && module.exports) {
+    module.exports = drawObject;
+    exports = module.exports;
+  }
+  exports.drawObject = drawObject;
+}
