@@ -1,10 +1,10 @@
 const obj = { test_key: 'test_val' };
 const obj2 = {
-	a : 'text',
-	b : {
-		c : 'text',
-		d : 'text'
-	}
+  a: 'text',
+  b: {
+    c: 'text',
+    d: 'text',
+  },
 };
 test('should contain test_key and test_val', () => {
   document.body.innerHTML =
