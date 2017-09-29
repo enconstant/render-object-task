@@ -100,39 +100,37 @@ function draw(item, obj) {
     return '<p class="object-render__key-line">' +
               `<span class="object-render__key-name_extended">${item}: [</span>` +
               '<span class="object-render__bracket_hidden">...]</span>' +
-            `</p>${drawObject(obj[item])}` +
+            `</p>${drawObject(obj[item], draw)}` +
             '<span class="object-render__bracket"> ]</span>';
   } else if (obj[item] && typeof obj[item] === 'object') {
     return '<p class="object-render__key-line">' +
               `<span class="object-render__key-name_extended">${item}: {</span>` +
               '<span class="object-render__bracket_hidden">...}</span>' +
-            `</p>${drawObject(obj[item])}` +
+            `</p>${drawObject(obj[item], draw)}` +
             '<span class="object-render__bracket"> }</span>';
   }
   return '<p class="object-render__key-line_inactive">' +
-            `<span class='object-render__key-name'>${item}: </span>` +
+            `<span class="object-render__key-name">${item}: </span>` +
             `<span>${obj[item]}</span>` +
           '</p>';
 }
 
-function drawObject(obj) {
+function drawObject(obj, drawLine) {
+  let text = '';
   if (Array.isArray(obj)) {
-    let text = '';
     obj.forEach((item, i) => {
-      text += draw(i, obj);
+      text += drawLine(i, obj);
     });
-    return `<div class='object-render__object-block'>${text}</div>`;
   } else if (typeof obj === 'object' && obj) {
     const props = Object.keys(obj);
-    let text = ' ';
     props.forEach((item) => {
-      text += draw(item, obj);
+      text += drawLine(item, obj);
     });
-    return `<div class='object-render__object-block'>${text}</div>`;
   }
+  return `<div class="object-render__object-block">${text}</div>`;
 }
 
-document.querySelector('.object-render').innerHTML = drawObject(object);
+document.querySelector('.object-render').innerHTML = drawObject(object, draw);
 
 const container = document.querySelector('.object-render');
 container.onclick = function (event) {
