@@ -5,8 +5,9 @@ test('should contain test string', () => {
     '<div class="page__rendering-block">' +
 		'<div class="object-render"></div>' +
 	 '</div>'
-  const drawObject = require('./main');	 
-  expect(drawObject(obj)).toMatch(/test_key/);
+  const main = require('./main');
+  console.log(main)	 
+  expect(main.drawObject(obj)).toMatch(/test_key/);
 });
 
 test('String type should be returned', () => {
@@ -14,6 +15,6 @@ test('String type should be returned', () => {
     '<div class="page__rendering-block">' +
 		'<div class="object-render"></div>' +
 	 '</div>'
-  const drawObject = require('./main');
-  expect(typeof drawObject(obj)).toBe('string');
-})
+  const main = require('./main');
+  expect(typeof main.drawObject(obj)).toBe('string');
+});
